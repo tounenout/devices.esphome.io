@@ -4,8 +4,11 @@ type: misc
 standard: global
 board: esp32
 difficulty: 2
-date-published: 2025-12-30
+date-published: 2026-06-13
 ---
+
+Fix Deprecated platform: rpi_dpi_rgb => platform: mipi_rgb
+
 ## Image
 
 ![Product image](./Sunton-esp32-8048s043.jpg "Product image")
@@ -78,32 +81,37 @@ i2c:
 
 display:
   - id: my_display
-    platform: rpi_dpi_rgb
+    platform: mipi_rgb
+    model: RPI
     dimensions:
       width: 800
       height: 480
     rotation: 0
     color_order: RGB
+
     de_pin: 40
     hsync_pin: 39
     vsync_pin: 41
     pclk_pin: 42
-    pclk_inverted: true
-    pclk_frequency: 16MHz # unsure about this
-    hsync_front_porch: 8
+
+    pclk_inverted: false
+    pclk_frequency: 16MHz
+
+    hsync_front_porch: 16
     hsync_pulse_width: 4
-    hsync_back_porch: 8
-    vsync_front_porch: 8
+    hsync_back_porch: 46
+
+    vsync_front_porch: 7
     vsync_pulse_width: 4
-    vsync_back_porch: 8
+    vsync_back_porch: 23
+
     data_pins:
-      red: [45, 48, 47, 21, 14]
+      red:   [45, 48, 47, 21, 14]
       green: [5, 6, 7, 15, 16, 4]
-      blue: [8, 3, 46, 9, 1]
+      blue:  [8, 3, 46, 9, 1]
+
     update_interval: never
-    auto_clear_enabled: false    
-    lambda: |-
-      it.print(400, 240,id(roboto_48),TextAlign::CENTER, "Hello Viet Nam");
+    auto_clear_enabled: true
     
 touchscreen:
   platform: gt911
@@ -121,7 +129,7 @@ output:
 light:
   - platform: monochromatic
     output: backlight_pwm
-    name: "Đèn nền"
+    name: "backlight"
     id: back_light
     restore_mode: ALWAYS_ON
 
